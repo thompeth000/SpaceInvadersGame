@@ -18,6 +18,15 @@ public class Stats {
 
     }
 
+    public static void updateCollectiveDX(){
+        if(waveNumber != 0)
+        collectiveDx += 1;
+    }
+
+    public static void resetCollectiveDX(){
+        collectiveDx = 4;
+    }
+
     public static boolean isIsPlay() {
         return isPlay;
     }

@@ -72,7 +72,7 @@ public class Game extends JPanel implements ActionListener {
 
 public void init(){
     entities = new ArrayList<Entity>();
-    entities.add(new Ship(Color.BLUE, getWidth()/2, getHeight() - 50, 30, 30, this, 0) );
+    entities.add(new Ship(Color.BLUE, getWidth()/2, getHeight() - 30, 15, 15, this, 0) );
     spawnAliens();
 
 }
@@ -80,6 +80,19 @@ public void init(){
 public void run(){
     timer = new Timer(1000/60, this);
     timer.start();
+}
+
+public int getNumAliens(){
+    int alienCount = 0;
+    for(Entity a: entities){
+        if(a instanceof Alien)
+            alienCount++;
+    }
+
+    if(alienCount == 0)
+        spawnAliens();
+
+    return alienCount;
 }
 
 public void paint(Graphics g){
@@ -95,8 +108,8 @@ public void paint(Graphics g){
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        entities.get(0).update(7);
-        for(j = 1; j < getNextIndex(); j++){
+
+        for(j = 0; j < getNextIndex(); j++){
             entities.get(j).update(j);
         }
 
@@ -105,7 +118,7 @@ public void paint(Graphics g){
 
         }
 
-        checkNoAliens();
+        getNumAliens();
 
         repaint();
     }
@@ -156,6 +169,7 @@ public void paint(Graphics g){
                 entities.add(new Alien(Color.RED, i * (alienWidth / 15) + ((getWidth() - alienWidth) / 2), 50 + (n * 40), 30, 30, this, getNextIndex()));
             }
     }
+    Stats.updateCollectiveDX();
     Stats.incrementWaveNumber();
     }
 
@@ -180,17 +194,5 @@ public void paint(Graphics g){
         g2d.drawString(s, start + xPos, yPos);
     }
 
-    public void checkNoAliens(){
-        boolean alien = false;
-        for(int i = 0; i < entities.size(); i++){
-            if(entities.get(i) instanceof Alien){
-                alien = true;
-                break;
-            }
-        }
 
-        if(!alien){
-            spawnAliens();
-        }
-    }
 }

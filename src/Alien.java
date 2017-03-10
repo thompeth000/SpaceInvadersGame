@@ -20,8 +20,8 @@ for(int n = 0; n < getGame().getNextIndex(); n++){
     }
 
     public void update(int i) {
-        int chanceOfFire = (int)(Math.random() * 420);
-        if(chanceOfFire > 418){
+        int chanceOfFire = (int)(Math.random() * 10000);
+        if(chanceOfFire > (9500 + (5 * getGame().getNumAliens()))){ //IT'S OVER 9000!!!!
             fireBulletAtPlayer();
         }
 
@@ -51,7 +51,7 @@ if(checkWallCollision()){
     }
 
     public void fireBulletAtPlayer(){
-        getGame().addEntity(new Bullet(Color.RED, getX() + (getWidth()) / 2, getY(), 10, 10, 10, 0, getGame(),getGame().getNextIndex(), false));
+        getGame().addEntity(new Bullet(Color.RED, getX() + (getWidth()) / 2, getY(), 10, 10, 10 + Stats.getWaveNumber(), 0, getGame(),getGame().getNextIndex(), false));
     }
 
     public boolean isPlayerObject(){
