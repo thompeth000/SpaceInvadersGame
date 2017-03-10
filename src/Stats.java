@@ -8,6 +8,8 @@ public class Stats {
     static boolean isPlay, isPause, isMenu;
     static int score = 0;
     static int waveNumber = 0;
+    static int playerHealth = 16;
+    static int playerLives = 3;
 
     public static double getCollectiveDx(){
         return collectiveDx;
@@ -16,6 +18,22 @@ public class Stats {
     public static void reverseCollectiveDx(){
         collectiveDx *= -1;
 
+    }
+
+    public static void decrementPlayerLives(){
+        playerLives--;
+    }
+
+    public static void decrementPlayerHealth(){
+        playerHealth--;
+    }
+
+    public static int getPlayerHealth(){
+        return playerHealth
+    }
+
+    public static int getPlayerLives(){
+        return playerLives;
     }
 
     public static void updateCollectiveDX(){
