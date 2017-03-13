@@ -5,7 +5,7 @@ public class Stats {
     static double collectiveDx = 4;
     static double collectiveDy = 0;
     static boolean hasCollided = false;
-    static boolean isPlay, isPause, isMenu;
+    static boolean isPlay, isPause, isMenu, isGameover, textFlicker;
     static int score = 0;
     static int waveNumber = 0;
     static int playerHealth = 16;
@@ -29,7 +29,19 @@ public class Stats {
     }
 
     public static int getPlayerHealth(){
-        return playerHealth
+        return playerHealth;
+    }
+
+    public static boolean getTextFlicker(){
+        return textFlicker;
+    }
+
+    public static void toggleTextFlicker(){
+        if(textFlicker){
+            textFlicker = false;
+        }
+        else
+            textFlicker = true;
     }
 
     public static int getPlayerLives(){
@@ -57,6 +69,10 @@ public class Stats {
         return isMenu;
     }
 
+    public static boolean isIsGameover(){
+        return isGameover;
+    }
+
     public static void incrementScore(){
         score += 250;
     }
@@ -81,19 +97,30 @@ public class Stats {
         isPlay = true;
         isPause = false;
         isMenu = false;
+        isGameover = false;
     }
 
     public static void setisPause(){
         isPause = true;
         isMenu = false;
         isPlay = false;
+        isGameover = false;
     }
 
     public static void setisMenu(){
         isMenu = true;
         isPause = false;
         isPlay = false;
+        isGameover = false;
     }
+
+    public static void setIsGameover(){
+        isGameover = true;
+        isPause = false;
+        isPlay = false;
+        isMenu = false;
+    }
+
 
     public static int getScore(){
         return score;
