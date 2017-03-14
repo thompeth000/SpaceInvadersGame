@@ -21,7 +21,7 @@ for(int n = 0; n < getGame().getNextIndex(); n++){
 
     public void update(int i) {
         int chanceOfFire = (int)(Math.random() * 10000);
-        if(chanceOfFire > (9500 + (5 * getGame().getNumAliens()))){ //IT'S OVER 9000!!!!
+        if(chanceOfFire > 9950){ //IT'S OVER 9000!!!!
             fireBulletAtPlayer();
         }
 

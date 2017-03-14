@@ -7,6 +7,7 @@ public class Ship extends Entity {
     private boolean hasFired = false;
     private boolean spaceHeld = false;
     private int bulletSpamTime;
+
     public Ship(Color color, int x, int y, int width, int height, Game game, int index){
         super(color, x, y, width, height, game, index);
 
@@ -14,7 +15,20 @@ public class Ship extends Entity {
 
 
     public void checkCollisions(int i) {
+        for(int n = 0; n < getGame().getNextIndex(); n++){
+            if(getGame().getHitbox(n).intersects(getBounds()) && getGame().getEntity(n) instanceof Bullet && !getGame().getEntity(n).isPlayerObject()){
 
+                getGame().getEntity(n).kill(i);
+                Stats.decrementPlayerHealth();
+                if(Stats.getPlayerHealth() <= 0){
+                    Stats.decrementPlayerLives();
+                    Stats.resetPlayerHealth();
+                    if(Stats.getPlayerLives() < 0){
+                        Stats.setIsGameover();
+                    }
+                }
+            }
+        }
     }
 
     public void paint(Graphics g){
@@ -43,7 +57,7 @@ public class Ship extends Entity {
             move();
         }
 
-        if(getGame().isSpacePressed() && !hasFired && !getGame().getFirstSpacePress() && bulletSpamTime > 60 && !spaceHeld){
+        if(getGame().isSpacePressed() && !hasFired && !getGame().getFirstSpacePress() && bulletSpamTime > 30 && !spaceHeld){
             getGame().addEntity(new Bullet(Color.GREEN, getX() + (getWidth()) / 2, getY(), 10, 10, -10, 0, getGame(),getGame().getNextIndex(), true));
             hasFired = true;
             bulletSpamTime = 0;
@@ -52,12 +66,14 @@ public class Ship extends Entity {
             hasFired = false;
 
         }
-        else if(getGame().isSpacePressed() && bulletSpamTime < 60){
+        else if(getGame().isSpacePressed() && bulletSpamTime < 30){
             spaceHeld = true;
         }
 
         if(!getGame().isSpacePressed())
             spaceHeld = false;
+
+        checkCollisions(i);
 
         bulletSpamTime++;
     }

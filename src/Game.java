@@ -15,7 +15,7 @@ public class Game extends JPanel implements ActionListener {
     int gameTime;
     ArrayList<Entity> entities;
     public static void main(String args[]){
-        Stats.setisMenu();
+        Stats.setIsGameover();
         Game game = new Game();
         game.init();
         game.run();
@@ -54,8 +54,14 @@ public class Game extends JPanel implements ActionListener {
                     aPressed = true;
                 }
 
-                if(e.getKeyCode() == KeyEvent.VK_SPACE && Stats.isIsMenu()){
+                if(e.getKeyCode() == KeyEvent.VK_SPACE && Stats.isIsMenu() || Stats.isIsGameover()){
+                    if(Stats.isIsGameover()){
+                        resetGame();
+                    }
+
                     Stats.setIsPlay();
+
+
                 }
             }
 
@@ -121,8 +127,10 @@ public void paint(Graphics g){
             obj.paint(g);
         }
         g.setColor(Color.WHITE);
-        printSimpleString(("Score: " + Stats.getScore()), getWidth(), 50, 20, g);
+        printSimpleString(("Score: " + Stats.getScore()), getWidth(), -150, 20, g);
         printSimpleString(("Wave: " + Stats.getWaveNumber()), getWidth(), -50, 20, g);
+        printSimpleString("Health: " + Stats.getPlayerHealth(), getWidth(), 50, 20, g);
+        printSimpleString("Lives: " + Stats.getPlayerLives(), getWidth(), 150, 20, g);
     }
     else if(Stats.isIsMenu()){
         g.setColor(Color.GREEN);
@@ -133,6 +141,20 @@ public void paint(Graphics g){
         }
         g.setFont(new Font("Lucida Console", Font.BOLD, 16));
         printSimpleString(("or alternatively, press space."), getWidth(), 0, 430, g);
+    }
+    else if(Stats.isIsGameover()){
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Lucida Console", Font.BOLD, 64));
+
+            printSimpleString(("GAME OVER"), getWidth(), 0, 200, g);
+
+            if(Stats.getTextFlicker()) {
+                printSimpleString("FINAL SCORE: " + Stats.getScore(), getWidth(), 0, 400, g);
+            }
+
+        g.setFont(new Font("Lucida Console", Font.BOLD, 32));
+        printSimpleString("PRESS SPACE TO PLAY AGAIN!", getWidth(), 0, 600, g);
+
     }
 }
 
@@ -224,6 +246,18 @@ else{
         }
     }
 
+    public void resetGame(){
+        for(int i = 1; i < entities.size(); i++){
+            entities.remove(i);
+        }
+        Stats.resetScore();
+        Stats.resetWaveNumber();
+        Stats.resetPlayerLives();
+        Stats.resetPlayerHealth();
+
+        entities.get(0).setX(getWidth() / 2);
+    }
+
     public Rectangle getHitbox(int i){
         return entities.get(i).getBounds();
     }
@@ -233,6 +267,8 @@ else{
         int start = width / 2 - stringLen / 2;
         g2d.drawString(s, start + xPos, yPos);
     }
+
+
 
 
 }

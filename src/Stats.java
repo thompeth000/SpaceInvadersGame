@@ -2,7 +2,7 @@
  * Created by thompeth000 on 3/3/2017.
  */
 public class Stats {
-    static double collectiveDx = 4;
+    static double collectiveDx = 1;
     static double collectiveDy = 0;
     static boolean hasCollided = false;
     static boolean isPlay, isPause, isMenu, isGameover, textFlicker;
@@ -11,8 +11,17 @@ public class Stats {
     static int playerHealth = 16;
     static int playerLives = 3;
 
+
     public static double getCollectiveDx(){
         return collectiveDx;
+    }
+
+    public static void resetPlayerHealth(){
+        playerHealth = 16;
+    }
+
+    public static void resetPlayerLives(){
+        playerLives = 3;
     }
 
     public static void reverseCollectiveDx(){
