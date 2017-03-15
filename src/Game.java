@@ -247,9 +247,10 @@ else{
     }
 
     public void resetGame(){
-        for(int i = 1; i < entities.size(); i++){
-            entities.remove(i);
+        while(entities.size() > 1) {
+            removeEntity(1);
         }
+
         Stats.resetScore();
         Stats.resetWaveNumber();
         Stats.resetPlayerLives();
