@@ -15,7 +15,7 @@ public class Game extends JPanel implements ActionListener {
     int gameTime;
     ArrayList<Entity> entities;
     public static void main(String args[]){
-        Stats.setIsGameover();
+        Stats.setisMenu();
         Game game = new Game();
         game.init();
         game.run();
@@ -90,6 +90,8 @@ public void init(){
     spawnAliens();
 
 }
+
+
 
 public int getGameTime(){
     return gameTime;

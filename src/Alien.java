@@ -34,11 +34,17 @@ if(checkWallCollision()){
 }
 
 
+
+
     }
 
 
 
     public boolean checkWallCollision() {
+        if(getY() + getHeight() > getGame().getHeight()){
+            Stats.setIsGameover();
+        }
+
         if(getX() + getWidth() + getDx() >= getGame().getWidth() || getX() + getDx() <= 0){
             return true;
         }

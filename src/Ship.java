@@ -6,7 +6,9 @@ import java.awt.*;
 public class Ship extends Entity {
     private boolean hasFired = false;
     private boolean spaceHeld = false;
+    private boolean visible = true;
     private int bulletSpamTime;
+    private int invulnTimer = 0;
 
     public Ship(Color color, int x, int y, int width, int height, Game game, int index){
         super(color, x, y, width, height, game, index);
@@ -16,13 +18,15 @@ public class Ship extends Entity {
 
     public void checkCollisions(int i) {
         for(int n = 0; n < getGame().getNextIndex(); n++){
-            if(getGame().getHitbox(n).intersects(getBounds()) && getGame().getEntity(n) instanceof Bullet && !getGame().getEntity(n).isPlayerObject()){
+            if(getGame().getHitbox(n).intersects(getBounds()) && getGame().getEntity(n) instanceof Bullet && !getGame().getEntity(n).isPlayerObject() && invulnTimer <= 0){
 
                 getGame().getEntity(n).kill(i);
                 Stats.decrementPlayerHealth();
                 if(Stats.getPlayerHealth() <= 0){
                     Stats.decrementPlayerLives();
                     Stats.resetPlayerHealth();
+                    setX(getGame().getWidth() / 2);
+                    invulnTimer = 60;
                     if(Stats.getPlayerLives() < 0){
                         Stats.setIsGameover();
                     }
@@ -32,8 +36,11 @@ public class Ship extends Entity {
     }
 
     public void paint(Graphics g){
-        g.setColor(getColor());
-        g.fillRect(getX(), getY(), getWidth(),getHeight());
+
+        if(visible) {
+            g.setColor(getColor());
+            g.fillRect(getX(), getY(), getWidth(), getHeight());
+        }
     }
 
 
@@ -76,6 +83,14 @@ public class Ship extends Entity {
         checkCollisions(i);
 
         bulletSpamTime++;
+
+        if(invulnTimer > 1){
+            invulnTimer--;
+            toggleVisible();
+        }
+        else
+            visible = true;
+
     }
 
 
@@ -90,5 +105,13 @@ public class Ship extends Entity {
 
     public boolean isPlayerObject(){
         return true;
+    }
+
+    public void toggleVisible(){
+        if(visible){
+            visible = false;
+        }
+        else
+            visible = true;
     }
 }
