@@ -58,8 +58,7 @@ public class Stats {
     }
 
     public static void updateCollectiveDX(){
-        if(waveNumber != 0)
-        collectiveDx += 1;
+        collectiveDx = 1;
     }
 
     public static void resetCollectiveDX(){

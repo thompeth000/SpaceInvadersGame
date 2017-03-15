@@ -26,7 +26,7 @@ public class Ship extends Entity {
                     Stats.decrementPlayerLives();
                     Stats.resetPlayerHealth();
                     setX(getGame().getWidth() / 2);
-                    invulnTimer = 60;
+                    invulnTimer = 120;
                     if(Stats.getPlayerLives() < 0){
                         Stats.setIsGameover();
                     }
@@ -84,7 +84,7 @@ public class Ship extends Entity {
 
         bulletSpamTime++;
 
-        if(invulnTimer > 1){
+        if(invulnTimer > 0){
             invulnTimer--;
             toggleVisible();
         }
