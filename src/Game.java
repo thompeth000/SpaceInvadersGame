@@ -42,25 +42,34 @@ public class Game extends JPanel implements ActionListener {
 
             @Override
             public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode() == KeyEvent.VK_SPACE){
-             spacePressed = true;
-            }
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    spacePressed = true;
+                }
 
-                if(e.getKeyCode() == KeyEvent.VK_D){
+                if (e.getKeyCode() == KeyEvent.VK_D) {
                     dPressed = true;
                 }
 
-                if(e.getKeyCode() == KeyEvent.VK_A){
+                if (e.getKeyCode() == KeyEvent.VK_A) {
                     aPressed = true;
                 }
 
-                if(e.getKeyCode() == KeyEvent.VK_SPACE && Stats.isIsMenu() || Stats.isIsGameover()){
-                    if(Stats.isIsGameover()){
+                if (e.getKeyCode() == KeyEvent.VK_SPACE && (Stats.isIsMenu() || Stats.isIsGameover())) {
+                    if (Stats.isIsGameover()) {
                         resetGame();
                     }
 
                     Stats.setIsPlay();
 
+
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_P) {
+                    if (Stats.isIsPlay()) {
+                        Stats.setisPause();
+                    }
+                    else if(Stats.isIsPause())
+                        Stats.setIsPlay();
 
                 }
             }
@@ -156,6 +165,20 @@ public void paint(Graphics g){
 
         g.setFont(new Font("Lucida Console", Font.BOLD, 32));
         printSimpleString("PRESS SPACE TO PLAY AGAIN!", getWidth(), 0, 600, g);
+
+    }
+    else if(Stats.isIsPause()){
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Lucida Console", Font.BOLD, 64));
+
+
+
+        if(Stats.getTextFlicker()) {
+            printSimpleString("PAUSE", getWidth(), 0, 400, g);
+        }
+
+        g.setFont(new Font("Lucida Console", Font.BOLD, 32));
+        printSimpleString("PRESS P TO UNPAUSE", getWidth(), 0, 600, g);
 
     }
 }
@@ -257,6 +280,8 @@ else{
         Stats.resetWaveNumber();
         Stats.resetPlayerLives();
         Stats.resetPlayerHealth();
+
+        firstSpacePress = true;
 
         entities.get(0).setX(getWidth() / 2);
     }
